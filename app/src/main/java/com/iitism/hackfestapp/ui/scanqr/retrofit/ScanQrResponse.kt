@@ -1,5 +1,5 @@
 package com.iitism.hackfestapp.ui.scanqr.retrofit
 
-data class AttendanceResponse(
+data class ScanQrResponse(
     val message: String
 )

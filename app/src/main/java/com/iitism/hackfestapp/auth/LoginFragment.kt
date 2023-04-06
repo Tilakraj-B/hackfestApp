@@ -61,6 +61,7 @@ class loginFragment : BaseFragment<LoginViewModel,FragmentLoginBinding, LoginRep
                     this.activity?.finish()
                 }
                 is Resource.Failure->{
+                    progressBar.visibility = View.GONE
                     Toast.makeText(requireContext(), "Please Try Again!", Toast.LENGTH_SHORT).show()
                 }
             }
@@ -75,8 +76,6 @@ class loginFragment : BaseFragment<LoginViewModel,FragmentLoginBinding, LoginRep
 
         }
         binding.LoginButton.setOnClickListener{
-
-
             val teamName=binding.teamNameEditTextLogin.text.toString()
             val password=binding.passwordLogin.text.toString()
             val visibility=if(progressBar.visibility==View.GONE) View.VISIBLE
@@ -93,7 +92,13 @@ class loginFragment : BaseFragment<LoginViewModel,FragmentLoginBinding, LoginRep
                 }
                 Toast.makeText(context,"Password is required",Toast.LENGTH_LONG).show()
             }else{
-                viewModel.login(teamName,password)
+                if(viewModel.isNetworkAvailable()){
+                    viewModel.login(teamName,password)
+                }
+                else{
+                    Toast.makeText(context, "Network Error",Toast.LENGTH_SHORT).show()
+                    progressBar.visibility = View.GONE
+                }
             }
 
         }
